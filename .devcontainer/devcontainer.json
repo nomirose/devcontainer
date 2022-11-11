@@ -1,0 +1,7 @@
+{
+  "build": {
+    "dockerfile": "../src/Dockerfile"
+  },
+  "customizations": {},
+  "remoteUser": "vscode"
+}
