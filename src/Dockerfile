@@ -7,6 +7,7 @@ ENV PATH="${BREW_BIN}:${SYS_PATH}"
 COPY . /tmp
 WORKDIR /tmp
 RUN /tmp/bin/apt.sh
+RUN /tmp/bin/system.sh
 
 USER vscode
 RUN /tmp/bin/homebrew.sh
