@@ -59,6 +59,36 @@ custom_umminmize() {
         xargs ${APT_GET_INSTALL} --reinstall
 }
 
+gh_login() {
+    if test -z "${GITHUB_TOKEN}"; then
+        echo "ERROR: GITHUB_TOKEN must be set" >&2
+        exit 1
+    fi
+    token="$(echo "${GITHUB_TOKEN}")"
+    unset GITHUB_TOKEN
+    # Authenticate the CLI tool with GitHub
+    echo "${token}" | gh auth login --with-token
+    gh auth status
+}
+
+# Depends the `gh` tool (installed later with apt-get)
+# cspell:ignore docwhat
+install_chronic() {
+    notify "Installing chronic..."
+    BIN_DIR="/usr/local/bin"
+    CHRONIC_REPO="docwhat/chronic"
+    CHRONIC_BIN="chronic_freebsd_amd64"
+    # Download the latest release of the `chronic` program
+    (
+        cd /tmp
+        gh release download -R "${CHRONIC_REPO}" -p "${CHRONIC_BIN}"
+        gh release download -R "${CHRONIC_REPO}" -p 'checksums.txt'
+        sha256sum -c --ignore-missing checksums.txt
+        chmod 755 "${CHRONIC_BIN}"
+        sudo mv -f "${CHRONIC_BIN}" "${BIN_DIR}"/chronic
+    )
+}
+
 # Execute in a subshell so we can filter the output
 (
     notify "Updating package lists..."
@@ -71,6 +101,9 @@ custom_umminmize() {
     custom_umminmize
 
     notify "Installing additional packages..."
-    ${APT_GET_INSTALL} build-essential gcc
+    ${APT_GET_INSTALL} build-essential gcc gh
+
+    gh_login
+    install_chronic
 ) 2>&1 |
     grep -vE '^\(Reading database'
