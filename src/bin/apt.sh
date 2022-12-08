@@ -71,6 +71,8 @@ gh_login() {
     gh auth status
 }
 
+# TODO: Use the `cronic` package available via APT
+
 # Depends the `gh` tool (installed later with apt-get)
 # cspell:ignore docwhat
 install_chronic() {
