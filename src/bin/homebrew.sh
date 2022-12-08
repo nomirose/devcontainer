@@ -12,5 +12,5 @@ set -x
 brew install \
     gcc \
     git \
-    hadolint \
+    gh \
     ltex-ls
