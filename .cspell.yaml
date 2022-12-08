@@ -1,0 +1,10 @@
+version: 0.2,
+language: en-US,
+caseSensitive: false,
+allowCompoundWords: true,
+# TODO: ADD BUILT-IN DICTIONARIES
+dictionaries:
+  - vocab
+dictionaryDefinitions:
+  - name: vocab
+    path: .vocab.txt
