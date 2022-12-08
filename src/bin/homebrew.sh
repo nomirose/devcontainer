@@ -1,4 +1,4 @@
-#!/bin/sh -ex
+#!/bin/sh -e
 
 HOMEBREW='https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh'
 

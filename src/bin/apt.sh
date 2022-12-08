@@ -1,4 +1,9 @@
-#!/bin/sh -e
+#!/bin/sh -ex
+
+# ANSI colors
+RED='\033[0;31m'
+BOLD='\033[1m'
+RESET='\033[0m'
 
 DEBIAN_FRONTEND=noninteractive
 export DEBIAN_FRONTEND
@@ -66,7 +71,7 @@ trap clean EXIT
 # }
 
 # Execute in a subshell so we can filter the output
-(
+set_up_apt () {
     notify "Updating package lists..."
     apt-get update
 
@@ -77,6 +82,13 @@ trap clean EXIT
     # custom_umminmize
 
     notify "Installing additional packages..."
-    ${APT_GET_INSTALL} build-essential gcc gh cronic nodejs
-) 2>&1 |
-    grep -vE '^\(Reading database'
+    ${APT_GET_INSTALL} \
+        build-essential \
+        gcc \
+        nodejs \
+        yarn \
+        cronic
+}
+
+# TODO: HANDLE PIPE FAILURES
+set_up_apt 2>&1 | grep -vE '^\(Reading database'
