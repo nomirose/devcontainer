@@ -71,7 +71,7 @@ trap clean EXIT
 # }
 
 # Execute in a subshell so we can filter the output
-set_up_apt () {
+set_up_apt() {
     notify "Updating package lists..."
     apt-get update
 

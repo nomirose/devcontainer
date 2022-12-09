@@ -1,5 +1,6 @@
 {
   "image": "ghcr.io/nomirose/devcontainer:edge",
+  "remoteUser": "root",
   "customizations": {
     "vscode": {
       "settings": {},
