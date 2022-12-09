@@ -1,4 +1,4 @@
-#!/bin/sh -ex
+#!/bin/sh -e
 
 # Switch default root shell
 sed -i 's,/root:/bin/ash,/root:/bin/bash,' /etc/passwd
