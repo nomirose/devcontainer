@@ -25,7 +25,7 @@ runtimes:
     - node@16.14.2
 actions:
   enabled:
-    #- trunk-fmt-pre-commit
-    #- trunk-check-pre-push
-    #- commitlint
+    - trunk-fmt-pre-commit
+    - trunk-check-pre-push
+    - commitlint
     - trunk-upgrade-available
