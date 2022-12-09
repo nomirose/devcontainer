@@ -1,6 +1,7 @@
 {
   "image": "ghcr.io/nomirose/devcontainer:edge",
   "remoteUser": "root",
+  "updateContentCommand": ".devcontainer/bin/update_content.sh",
   "customizations": {
     "vscode": {
       "settings": {},
