@@ -44,3 +44,14 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           cache-from: type=gha, scope=${{ github.workflow }}
           cache-to: type=gha, scope=${{ github.workflow }}
+  tag:
+    name: Update Git tag
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: rickstaa/action-create-tag@v1
+        with:
+          tag: edge
+          message: Update to reflect the published Docker edge tag
