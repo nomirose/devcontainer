@@ -27,5 +27,5 @@ actions:
   enabled:
     # - trunk-fmt-pre-commit
     - trunk-check-pre-push
-    # - commitlint
+    - commitlint
     - trunk-upgrade-available

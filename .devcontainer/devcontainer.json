@@ -1,5 +1,7 @@
 {
-  "image": "ghcr.io/nomirose/devcontainer:edge",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
   "remoteUser": "root",
   "customizations": {
     "vscode": {
