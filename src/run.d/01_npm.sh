@@ -1,5 +1,4 @@
-#!/bin/bash -e
+#!/bin/sh -e
 
 npm install --global \
     trunk
-
