@@ -13,4 +13,5 @@ brew install \
     gcc \
     git \
     gh \
+    vale \
     ltex-ls
