@@ -2,4 +2,3 @@
 
 npm install --global \
     trunk
-

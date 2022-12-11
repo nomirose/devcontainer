@@ -1,10 +1,5 @@
 #!/bin/sh -ex
 
-# ANSI colors
-RED='\033[0;31m'
-BOLD='\033[1m'
-RESET='\033[0m'
-
 DEBIAN_FRONTEND=noninteractive
 export DEBIAN_FRONTEND
 
@@ -27,10 +22,10 @@ curl -fsSL https://deb.nodesource.com/setup_19.x | bash -
 # Set up APT for latest Yarn
 YARN_KEY=/usr/share/keyrings/yarnkey.gpg
 curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg |
-  gpg --dearmor |
-  tee "${YARN_KEY}" >/dev/null
+    gpg --dearmor |
+    tee "${YARN_KEY}" >/dev/null
 echo "deb [signed-by=${YARN_KEY}] https://dl.yarnpkg.com/debian stable main" |
-  tee /etc/apt/sources.list.d/yarn.list
+    tee /etc/apt/sources.list.d/yarn.list
 
 # Unminimize
 # -----------------------------------------------------------------------------
@@ -85,7 +80,7 @@ trap clean EXIT
 # }
 
 # Execute in a subshell so we can filter the output
-set_up_apt () {
+set_up_apt() {
     notify "Updating package lists..."
     apt-get update
 

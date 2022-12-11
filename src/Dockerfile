@@ -7,7 +7,7 @@ ENV PATH="${BREW_BIN}:${SYS_PATH}"
 
 COPY . /tmp
 WORKDIR /tmp
-RUN /tmp/run.d/00_apt.sh
-RUN /tmp/run.d/01_npm.sh
-RUN /tmp/run.d/02_homebrew.sh
-RUN /tmp/run.d/03_system.sh
+RUN /tmp/run.d/00_apt.sh && \
+    /tmp/run.d/01_npm.sh && \
+    /tmp/run.d/02_homebrew.sh && \
+    /tmp/run.d/03_system.sh
