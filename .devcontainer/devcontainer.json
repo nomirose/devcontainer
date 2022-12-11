@@ -6,27 +6,7 @@
   "customizations": {
     "vscode": {
       "settings": {
-        "[shellscript]": {
-          "editor.defaultFormatter": "trunk.io"
-        },
-        "[dockerfile]": {
-          "editor.defaultFormatter": "trunk.io"
-        },
-        "[javascript]": {
-          "editor.defaultFormatter": "trunk.io"
-        },
-        "[python]": {
-          "editor.defaultFormatter": "trunk.io"
-        },
-        "[yaml]": {
-          "editor.defaultFormatter": "trunk.io"
-        },
-        "[jsonc]": {
-          "editor.defaultFormatter": "trunk.io"
-        },
-        "[json]": {
-          "editor.defaultFormatter": "trunk.io"
-        }
+        "editor.defaultFormatter": "trunk.io"
       },
       "extensions": [
         "codezombiech.gitignore",
@@ -43,7 +23,8 @@
         "trunk.io",
         "Tyriar.sort-lines",
         "valentjn.vscode-ltex",
-        "xshrim.txt-syntax"
+        "xshrim.txt-syntax",
+        "foxundermoon.shell-format"
       ]
     }
   }
