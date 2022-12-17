@@ -10,8 +10,10 @@ set +x
 set -x
 
 brew install \
+    direnv \
     gcc \
-    git \
     gh \
-    vale \
-    ltex-ls
+    git \
+    ltex-ls \
+    shfmt \
+    vale
