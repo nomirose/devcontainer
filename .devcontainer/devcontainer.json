@@ -1,5 +1,5 @@
 {
-  "image": "ghcr.io/nomirose/devcontainer:edge",
+  "image": "ghcr.io/nomirose/devcontainer:latest",
   "remoteUser": "root",
   "postStartCommand": [
     "./.devcontainer/post-start.sh",
