@@ -1,4 +1,4 @@
-name: Dev Container
+name: Dev Container Prebuilds
 on:
   workflow_dispatch:
   schedule:
@@ -27,7 +27,7 @@ jobs:
           cacheFrom: ghcr.io/${{ github.repository }}
           push: always
   sync-branch:
-    name: Synchronize Git branch
+    name: Synchronize branch
     if: github.event_name != 'pull_request'
     needs: prebuild
     runs-on: ubuntu-latest
@@ -35,6 +35,6 @@ jobs:
       - uses: actions/checkout@v3
       - uses: connor-baer/action-sync-branch@main
         with:
-          branch: docker-edge
+          branch: latest
           token: ${{ secrets.GITHUB_TOKEN }}
           force: true
