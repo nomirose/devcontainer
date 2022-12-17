@@ -1,5 +1,7 @@
 {
-  "image": "ghcr.io/nomirose/devcontainer:latest",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
   "remoteUser": "root",
   "postStartCommand": [
     "./.devcontainer/post-start.sh",
