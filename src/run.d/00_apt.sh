@@ -91,12 +91,13 @@ set_up_apt() {
     # custom_umminmize
 
     notify "Installing additional packages..."
-    ${APT_GET_INSTALL} \
+    $APT_GET_INSTALL \
+        acl \
         build-essential \
+        cronic \
         gcc \
         nodejs \
-        yarn \
-        cronic
+        yarn
 }
 
 # TODO: HANDLE PIPE FAILURES
