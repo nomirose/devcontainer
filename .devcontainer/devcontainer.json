@@ -1,6 +1,10 @@
 {
   "image": "ghcr.io/nomirose/devcontainer:edge",
   "remoteUser": "root",
+  "postStartCommand": [
+    "./.devcontainer/post-start.sh",
+    "${containerWorkspaceFolder}"
+  ],
   "customizations": {
     "vscode": {
       "settings": {},
