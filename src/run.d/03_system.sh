@@ -10,7 +10,7 @@ first_run_file='first-run-notice-already-displayed'
 touch "${config_dir}/${first_run_file}"
 
 # Set up direnv
-cat >>/root/.bashrc <<EOF
+cat >>/root/.profile <<EOF
 
 "\$(direnv export bash)"
 EOF
