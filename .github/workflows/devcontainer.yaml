@@ -11,9 +11,21 @@ on:
       - '*'
 
 jobs:
+  check:
+    name: Run checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: curl -sfL https://direnv.net/install.sh | bash > /dev/null 2>&1
+      - run: ./bootstrap.sh
+      - uses: trunk-io/trunk-action@v1
+        if: github.event_name != 'pull_request'
+        with:
+          trunk-token: ${{ secrets.TRUNK_API_TOKEN }}
   prebuild:
     name: Prebuild image
     runs-on: ubuntu-latest
+    needs: check
     steps:
       - uses: actions/checkout@v3
       - uses: docker/login-action@v1
@@ -25,8 +37,8 @@ jobs:
         with:
           imageName: ghcr.io/${{ github.repository }}
           cacheFrom: ghcr.io/${{ github.repository }}
-          push: always
-  sync-branch:
+          refFilterForPush: refs/heads/main
+  sync:
     name: Synchronize branch
     if: github.event_name != 'pull_request'
     needs: prebuild

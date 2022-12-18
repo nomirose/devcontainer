@@ -19,9 +19,9 @@ lint:
     - yamllint@1.28.0
 runtimes:
   enabled:
-    - python@3.10.3
     - go@1.18.3
     - node@16.14.2
+    - python@3.10.8
 actions:
   enabled:
     - commitlint
