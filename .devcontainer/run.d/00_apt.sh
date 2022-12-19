@@ -1,104 +1,52 @@
 #!/bin/sh -ex
 
-DEBIAN_FRONTEND=noninteractive
-export DEBIAN_FRONTEND
-
-# You will need to disable shellcheck SC2086 when using this variable becurse
-# we rely on word splitting for it to function as a list of arguments
-APT_GET_INSTALL='apt-get install -y --no-install-recommends'
-
-notify() {
-    message="${1}"
-    # Print the message in bold with an empty newline on each side
-    printf '\n\e[1m%s\e[0m\n\n' "${message}"
-}
+tmp_dir="$(mktemp -d)"
+clean() { rm -rf "${tmp_dir}"; }
+trap clean EXIT
 
 # Custom sources
 # -----------------------------------------------------------------------------
 
+cd "${tmp_dir}"
+
+NODESOURCE_URL=https://deb.nodesource.com/setup_19.x
+NODESOURCE_SCRIPT=nodesource_setup.sh
+
 # Set up APT for latest Node.js
-curl -fsSL https://deb.nodesource.com/setup_19.x | bash -
+wget -q "${NODESOURCE_URL}" -O "${NODESOURCE_SCRIPT}"
+chmod 755 "${NODESOURCE_SCRIPT}"
+"./${NODESOURCE_SCRIPT}"
+
+YARN_DEB_REPO=https://dl.yarnpkg.com/debian
+YARN_PUBKEY_URL="${YARN_DEB_REPO}/pubkey.gpg"
+YARN_PUBKEY=pubkey.gpg
+YARN_KEY_PATH="/usr/share/keyrings/yarnkey.gpg"
+YARN_LIST=/etc/apt/sources.list.d/yarn.list
 
 # Set up APT for latest Yarn
-YARN_KEY=/usr/share/keyrings/yarnkey.gpg
-curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg |
-    gpg --dearmor |
-    tee "${YARN_KEY}" >/dev/null
-echo "deb [signed-by=${YARN_KEY}] https://dl.yarnpkg.com/debian stable main" |
-    tee /etc/apt/sources.list.d/yarn.list
+wget -q "${YARN_PUBKEY_URL}" -O "${YARN_PUBKEY}"
+rm -f "${YARN_KEY_PATH}"
+gpg --dearmor --output "${YARN_KEY_PATH}" "${YARN_PUBKEY}"
+cat >"${YARN_LIST}" <<EOF
+deb [signed-by=${YARN_KEY_PATH}] ${YARN_DEB_REPO} stable main
+EOF
 
-# Unminimize
+# APT setup
 # -----------------------------------------------------------------------------
 
-# TODO: FIGURE OUT WHAT TO DO WITH THIS SECTION NOW WE HAVE MOVED TO A DEBIAN
-# BASE IMAGE
+DEBIAN_FRONTEND=noninteractive
+export DEBIAN_FRONTEND
 
-# We unminimize the system by hand because the stock `unminimize` command seems
-# to be broken at the time of writing (2022-11-14). For more information, see:
-# https://bugs.launchpad.net/cloud-images/+kbug/1996489
+apt-get -q update -y
 
-# Crate a temporary output file for `dpkg` that will be cleaned up when the
-# script exits
-tmp_output="$(mktemp)"
-clean() { rm -rf "${tmp_output}"; }
-trap clean EXIT
+apt-get -q upgrade -y
 
-# NOTE: Unlike the stock `unminimize` command, the `custom_umminmize` function
-# will reinstall the same packages every time you run it. We don't have any
-# checks in place to prevent this this because we assume the script is going to
-# be run once, during the image build.
+apt-get -q install -y --no-install-recommends \
+    acl \
+    build-essential \
+    cronic \
+    gcc \
+    nodejs \
+    yarn
 
-# Print a list of installed packages that may claim to own files in the
-# provided directory
-# list_pkgs() {
-#     dirname="${1}"
-#     output_file="${2}"
-#     dpkg -S "${dirname}" |
-#         sed 's|, |\n|g;s|: [^:]*$||' >>"${output_file}"
-# }
-
-# Custom replacement for the stock `unmininize` command
-# custom_umminmize() {
-#     # Remove the temporary `man` script
-#     BIN_PATH="/usr/bin/man"
-#     rm -f "${BIN_PATH}"
-#     # Move the real `man` binary back into place
-#     mv "${BIN_PATH}.REAL" "${BIN_PATH}"
-#     # re-install the `man` package
-#     ${APT_GET_INSTALL} --reinstall man
-#     # Run `dpkg` three times, once for each mininmized directory, and save the
-#     # output in a temporary file
-#     list_pkgs "/usr/share/man/" "${tmp_output}"
-#     list_pkgs "/usr/share/doc/" "${tmp_output}"
-#     list_pkgs "/usr/share/locale/" "${tmp_output}"
-#     # Read in the temporary file, sort the contents, remove duplicates, and
-#     # pass the package list to `apt-get`
-#     # shellcheck disable=SC2086
-#     sort --version-sort <"${tmp_output}" |
-#         uniq |
-#         xargs ${APT_GET_INSTALL} --reinstall
-# }
-
-# Execute in a subshell so we can filter the output
-set_up_apt() {
-    notify "Updating package lists..."
-    apt-get update
-
-    notify "Upgrading packages..."
-    apt-get upgrade -y
-
-    # notify "Unminimizing the system..."
-    # custom_umminmize
-
-    notify "Installing additional packages..."
-    $APT_GET_INSTALL \
-        acl \
-        build-essential \
-        cronic \
-        gcc \
-        nodejs \
-        yarn
-}
-
-# TODO: HANDLE PIPE FAILURES
-set_up_apt 2>&1 | grep -vE '^\(Reading database'
+rm -rf /var/lib/apt/lists/*
