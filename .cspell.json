@@ -1,0 +1,26 @@
+{
+  "version": 0.2,
+  "language": "en-US",
+  "caseSensitive": false,
+  "allowCompoundWords": true,
+  "import": ["@cspell/dict-shell/cspell-ext.json"],
+  "dictionaries": [
+    "companies",
+    "custom-vocab",
+    "docker",
+    "fileTypes",
+    "fullstack",
+    "html-symbol-entities",
+    "misc",
+    "npm",
+    "public-licenses",
+    "shell",
+    "softwareTerms"
+  ],
+  "dictionaryDefinitions": [
+    {
+      "name": "custom-vocab",
+      "path": "./.trunk/vocab.txt"
+    }
+  ]
+}
