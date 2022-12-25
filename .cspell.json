@@ -6,7 +6,7 @@
   "import": ["@cspell/dict-shell/cspell-ext.json"],
   "dictionaries": [
     "companies",
-    "custom-vocab",
+    "project-vocab",
     "docker",
     "fileTypes",
     "fullstack",
@@ -19,7 +19,7 @@
   ],
   "dictionaryDefinitions": [
     {
-      "name": "custom-vocab",
+      "name": "project-vocab",
       "path": "./.trunk/vocab.txt"
     }
   ]
