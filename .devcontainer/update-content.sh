@@ -1,6 +1,6 @@
 #!/bin/sh -ex
 
-# Run after the devcontainer has successfully started
+# Run whenever the contents of the workspace mount are updated
 # https://containers.dev/implementors/json_reference/#lifecycle-scripts
 
 workspace_dir="${1:=}"
@@ -16,3 +16,6 @@ fi
 whoami="$(whoami)"
 sudo chown -R "${whoami}" "${workspace_dir}"
 sudo setfacl -bnR "${workspace_dir}"
+
+# Allow direnv to load `.envrc` files in the workspace mount
+direnv allow "${workspace_dir}"

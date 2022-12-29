@@ -3,8 +3,8 @@
     "dockerfile": "Dockerfile"
   },
   "remoteUser": "root",
-  "postStartCommand": [
-    "./.devcontainer/post-start.sh",
+  "updateContentCommand": [
+    "./.devcontainer/update-content.sh",
     "${containerWorkspaceFolder}"
   ],
   "customizations": {
