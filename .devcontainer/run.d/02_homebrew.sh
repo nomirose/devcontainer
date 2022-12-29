@@ -14,13 +14,15 @@ trap clean EXIT
 cd "${tmp_dir}"
 wget -q "${INSTALL_URL}" -O "${INSTALL_SCRIPT}"
 chmod 755 "${INSTALL_SCRIPT}"
-NONINTERACTIVE=false "./${INSTALL_SCRIPT}"
+NONINTERACTIVE=false
+export NONINTERACTIVE
+HOMEBREW_INSTALL_FROM_API=true
+export HOMEBREW_INSTALL_FROM_API
+"./${INSTALL_SCRIPT}"
 
 brew install \
+    bash-completion@2 \
     direnv \
     gcc \
     gh \
-    git \
-    ltex-ls \
-    shfmt \
-    vale
+    git
